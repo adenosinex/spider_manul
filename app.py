@@ -4,6 +4,8 @@ import os
 
 from flask_cors import CORS
 
+from rmad import clean_text
+
 app = Flask(__name__)
 CORS(app)  
 
@@ -30,11 +32,11 @@ def upload():
         return jsonify({"error": "No text provided"}), 400
 
     text = data["text"]
-    
+
+    text = clean_text(text)
 
     # 追加写入
     with open(OUTPUT_FILE, "a", encoding="utf-8") as f:
-        
         f.write(text)
     with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
         full_text = f.read()
